@@ -41,10 +41,9 @@ pipelines:
         --repo-resolve-releases maven-virtual2 --repo-resolve-snapshots maven-virtual2
       - jfrog rt mvn clean install
       - jfrog rt bag
-      - jfrog rt bp
+      onComplete:
+      - update_commit_status eyalbe4_mvn_example_pipelines_gitResource
       onSuccess:
       - export JFROG_BUILD_RESULTS=PASS
-      - update_commit_status eyalbe4_mvn_example_pipelines_gitResource
-      onFailure:
-      - export JFROG_BUILD_RESULTS=FAIL
-      - update_commit_status eyalbe4_mvn_example_pipelines_gitResource
+      - jfrog rt bce
+      - jfrog rt bp
